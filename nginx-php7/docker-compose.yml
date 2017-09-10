@@ -1,5 +1,17 @@
 nginx:
-    image: nginx:latest
+    build: ./nginx/
     container_name: nginx-container
     ports:
         - 80:80
+    links:
+        - php
+    volumes:
+        - ./www/html/:/var/www/html/
+
+php:
+    image: php:7.0-fpm
+    container_name: php-container
+    expose:
+        - 9000
+    volumes:
+        - ./www/html/:/var/www/html/
