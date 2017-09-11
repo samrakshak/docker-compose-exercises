@@ -9,10 +9,12 @@ nginx:
         - app-data
 
 php:
-    image: php:7.0-fpm
+    build: ./php/
     container_name: php-container
     expose:
         - 9000
+    links:
+        - mysql
     volumes_from:
         - app-data
 
@@ -21,4 +23,22 @@ app-data:
     container_name: app-data-container
     volumes:
         - ./www/html/:/var/www/html/
+    command: "true"
+
+mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    volumes_from:
+        - mysql-data
+    environment:
+        MYSQL_ROOT_PASSWORD: secret
+        MYSQL_DATABASE: my_db
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+
+mysql-data:
+    image: mysql:latest
+    container_name: myssql-data-container
+    volumes:
+        - /var/lib/mysql
     command: "true"
