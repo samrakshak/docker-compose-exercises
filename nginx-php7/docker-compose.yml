@@ -42,3 +42,13 @@ mysql-data:
     volumes:
         - /var/lib/mysql
     command: "true"
+
+phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    ports:
+        - 8080:80
+    links:
+        - mysql
+    environment:
+        PMA_HOST: mysql
