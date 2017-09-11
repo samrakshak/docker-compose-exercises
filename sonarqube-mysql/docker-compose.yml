@@ -1,0 +1,25 @@
+version: '3'
+
+# Add .env file and add key=value strings to mapping variables like ${XXXX}
+
+services:
+    mysql:
+        image: mysql
+        # container_name: sonar-db
+        environment:
+            MYSQL_DATABASE: sq
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_USER: ${SONAR_USER}
+            MYSQL_PASSWORD: ${SONAR_PASSWORD}
+
+    sonarqube:
+        image: sonarqube
+        # container_name: sonar-web
+        links:
+            - mysql:db
+        environment:
+            SONARQUBE_JDBC_URL: "jdbc:mysql://db/sq?useUnicode=true&characterEncoding=utf8"
+            SONARQUBE_JDBC_USERNAME: ${SONAR_USER}
+            SONARQUBE_JDBC_PASSWORD: ${SONAR_PASSWORD}
+        ports:
+            - 9000:9000
