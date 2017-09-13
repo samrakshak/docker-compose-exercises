@@ -1,8 +1,13 @@
-version: '3'
+version: '2.2'
 
 services:
     gitlab:
         image: 'gitlab/gitlab-ce:latest'
+        mem_limit: 4000000000
+        memswap_limit: 6000000000
+        mem_reservation: 1024m
+        privileged: true
+        cpu_count: 2
         restart: always
         hostname: ${GITLAB_HOST_NAME}
         container_name: gitlab
