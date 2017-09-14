@@ -18,7 +18,7 @@ services:
         ports:
             - '${GITLAB_HOST_PORT}:${GITLAB_HOST_PORT}'
             - '${GITLAB_SSH_PORT}:22'
-        # volumes:
-        #     - '${GITLAB_VOLUMES_ROOT}/config:/etc/gitlab'
-        #     - '${GITLAB_VOLUMES_ROOT}/logs:/var/log/gitlab'
-        #     - '${GITLAB_VOLUMES_ROOT}/data:/var/opt/gitlab'
+        volumes:
+            - '${GITLAB_VOLUMES_ROOT}/config:/etc/gitlab'
+            - '${GITLAB_VOLUMES_ROOT}/logs:/var/log/gitlab'
+            - '${GITLAB_VOLUMES_ROOT}/data:/var/opt/gitlab'
