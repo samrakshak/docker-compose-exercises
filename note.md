@@ -12,3 +12,8 @@ Using `netstat -tuap` to show the port mapping table.
 **-p**: Show PID
 
 ---
+
+The docker storage overview:
+ - volume: manage data by docker.
+ - bind mount: manage data by host file system.
+ - tmpfs: non-persisted on the disk.
