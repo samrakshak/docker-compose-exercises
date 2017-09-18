@@ -1,0 +1,44 @@
+version: '2.2'
+
+services:
+    gitlab:
+        image: 'gitlab/gitlab-ce:latest'
+        mem_limit: 4000000000
+        memswap_limit: 6000000000
+        mem_reservation: 1024m
+        privileged: true
+        cpu_count: 2
+        restart: always
+        hostname: ${GITLAB_HOST_NAME}
+        container_name: gitlab
+        environment:
+            GITLAB_OMNIBUS_CONFIG: |
+                external_url 'http://${GITLAB_HOST_NAME}:${GITLAB_HOST_PORT}'
+
+        ports:
+            - '${GITLAB_HOST_PORT}:${GITLAB_HOST_PORT}'
+            - '${GITLAB_SSH_PORT}:22'
+        volumes:
+            - '${GITLAB_VOLUMES_ROOT}/config:/etc/gitlab'
+            - '${GITLAB_VOLUMES_ROOT}/logs:/var/log/gitlab'
+            - '${GITLAB_VOLUMES_ROOT}/data:/var/opt/gitlab'
+    mysql:
+        image: mysql
+        container_name: sonar-db
+        environment:
+            MYSQL_DATABASE: sq
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_USER: ${SONAR_USER}
+            MYSQL_PASSWORD: ${SONAR_PASSWORD}
+
+    sonarqube:
+        image: sonarqube
+        container_name: sonar-web
+        links:
+            - mysql:db
+        environment:
+            SONARQUBE_JDBC_URL: "jdbc:mysql://db/sq?useUnicode=true&characterEncoding=utf8"
+            SONARQUBE_JDBC_USERNAME: ${SONAR_USER}
+            SONARQUBE_JDBC_PASSWORD: ${SONAR_PASSWORD}
+        ports:
+            - 9000:9000
