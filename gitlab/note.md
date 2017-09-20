@@ -78,3 +78,5 @@ irb(main):005:0> wiki.repository.empty?
 ```
 
 I think the key point was `wiki.repository.expire_all_method_caches` to flush all caches. After above steps I backup the skipped repository successfully.:tada:
+
+[Gitlab issue Reference](https://gitlab.com/gitlab-org/gitlab-ce/issues/28854)
