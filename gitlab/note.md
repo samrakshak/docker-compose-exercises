@@ -1,7 +1,29 @@
 #### Setup ####
+
+##### Http setting #####
 The setting of docker-compose.yml for gitlab that using non web port (80) that must using `external_url` config to set the different prot to gitlab web. That also set the ports arguments too.
 
 if set the `external_url 'http://192.168.1.100:9981'` .that port must set to `9981:9981` cause the external_url will change nginx 80 port to 9981 inside the gitlab container.
+
+##### SSH setting #####
+Use different ssh port that must set the `gitlab_rails['gitlab_shell_ssh_port']` setction at the docker-compose file. And expose ssh port using customize ssh port if you don't use host defautl ssh port (22).
+
+Usually, The host ssh port will taking by sshd services that will making the docker container alert ssh port was in used error.
+
+If using {host ssh port}:{conatiner ssh port} like `2222:22` only that will making ssh link error on the project page. After added `gitlab_rails['gitlab_shell_ssh_port']` section the project page will show the ssh link correctly.
+
+Error link: `git@192.168.1.100:bob/awesome-project.git`
+
+Correct link: `ssh://git@192.168.1.100:2222/bob/awesome-project.git`
+
+```yaml
+environment:
+    GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+
+ports:
+    - '2222:2222'
+```
 
 
 #### Backup in docker container ####
