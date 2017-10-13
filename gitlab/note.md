@@ -47,6 +47,19 @@ Start backup gitlab cron job at 2 am :
 * 2 * * * docker exec -t <your container name> gitlab-rake gitlab:backup:create
 ```
 
+##### Backup to aws s3 storage #####
+
+Backup to remote storage like `s3`. and store backups into the folder of your bucket that will need add additional argument - `DIRECTORY=your-folder` statement end of the rake backup task. (instead of a global config setting) 
+
+```sh
+gitlab-rake gitlab:backup:create DIRECTORY=backups
+```
+
+[Gitlab issue reference:#23221](https://gitlab.com/gitlab-org/gitlab-ce/issues/23221)
+
+
+
+
 ##### Restore #####
 
 ```sh
