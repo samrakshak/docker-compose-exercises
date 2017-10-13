@@ -2,12 +2,12 @@ version: '2.2'
 
 services:
     gitlab:
-        image: 'gitlab/gitlab-ce:latest'
-        mem_limit: 4000000000
-        memswap_limit: 6000000000
-        mem_reservation: 1024m
-        privileged: true
-        cpu_count: 2
+        image: 'gitlab/gitlab-ce:${GITLAB_VERSION}'
+        # mem_limit: 4000000000
+        # memswap_limit: 6000000000
+        # mem_reservation: 1024m
+        # privileged: true
+        # cpu_count: 2
         restart: always
         hostname: ${GITLAB_HOST_NAME}
         container_name: gitlab
@@ -15,8 +15,14 @@ services:
             GITLAB_OMNIBUS_CONFIG: |
                 external_url 'http://${GITLAB_HOST_NAME}:${GITLAB_HOST_PORT}'
                 gitlab_rails['backup_keep_time'] = ${GITLAB_BACKUP_LIFETIME}
-                gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT}
-
+                gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT}
+                gitlab_rails['backup_upload_connection'] = {
+                    'provider' => 'AWS',
+                    'region' => '${GITLAB_AWS_REGION}',
+                    'aws_access_key_id' => '${GITLAB_AWS_KEY_ID}',
+                    'aws_secret_access_key' => '${GITLAB_AWS_KEY}'
+                }
+                gitlab_rails['backup_upload_remote_directory'] = '${GITLAB_AWS_S3_DIRECTORY}'
         ports:
             - '${GITLAB_HOST_PORT}:${GITLAB_HOST_PORT}'
             - '${GITLAB_SSH_PORT}:22'
