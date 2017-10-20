@@ -15,6 +15,7 @@ services:
             GITLAB_OMNIBUS_CONFIG: |
                 external_url 'http://${GITLAB_HOST_NAME}:${GITLAB_HOST_PORT}'
                 gitlab_rails['backup_keep_time'] = ${GITLAB_BACKUP_LIFETIME}
+                gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT}
                 gitlab_rails['backup_upload_connection'] = {
                     'provider' => 'AWS',
                     'region' => '${GITLAB_AWS_REGION}',
