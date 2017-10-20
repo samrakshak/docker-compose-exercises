@@ -47,7 +47,7 @@ services:
         links:
             - mysql:db
         environment:
-            SONARQUBE_JDBC_URL: "jdbc:mysql://db/{$DB_NAME}?useUnicode=true&characterEncoding=utf8"
+            SONARQUBE_JDBC_URL: "jdbc:mysql://db/${DB_NAME}?useUnicode=true&characterEncoding=utf8"
             SONARQUBE_JDBC_USERNAME: ${SONAR_USER}
             SONARQUBE_JDBC_PASSWORD: ${SONAR_PASSWORD}
         ports:
